@@ -13,15 +13,38 @@
 </head>
 
 <body>
-  <div class="password-container">
+  <div id="app" class="password-container">
     <h2>Random Password Generator</h2>
     <div class="input-container">
-      <input type="text" id="input" class="input" placeholder="Create Password" readonly />
+      <input type="text" id="input" class="input" :value="password" placeholder="Create Password" readonly />
     </div>
-    <button class="btn">Generate</button>
+    <button @click="randomPassword()" class="btn">Generate</button>
   </div>
 
   <!-- Aquí va VUE...pero recuerda también el contenedor id="app" -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    createApp({
+      setup() {
+        const password = ref('')
+        const randomPassword = (length = 8) => {
+          const chars = '0123456789abcdefghijklmnopqrstuvwxyz'
+          let result = ''
+          for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length))
+          }
+
+          console.log(result)
+          password.value = result
+        }
+        return {
+          password,
+          randomPassword
+        }
+      }
+    }).mount('#app')
+  </script>
 
 </body>
 

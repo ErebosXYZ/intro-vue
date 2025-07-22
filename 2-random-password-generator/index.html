@@ -25,11 +25,16 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script>
     const { createApp, ref } = Vue
+
+    // Les variables i funcions auxiliars es posen fora del setup
+
+    const chars = '0123456789abcdefghijklmnopqrstuvwxyz'
+
     createApp({
+
       setup() {
         const password = ref('')
         const randomPassword = (length = 8) => {
-          const chars = '0123456789abcdefghijklmnopqrstuvwxyz'
           let result = ''
           for (let i = 0; i < length; i++) {
             result += chars.charAt(Math.floor(Math.random() * chars.length))

@@ -14,17 +14,61 @@
         <h1>Rock Paper Scissors Game</h1>
         <p>Choose your move:</p>
         <div class="buttons">
-            <button id="rock">&#x1F44A;</button>
-            <button id="paper">&#x1f590;</button>
-            <button id="scissors">&#x270c;</button>
+            <button @click="game('rock')" id="rock">&#x1F44A;</button>
+            <button @click="game('paper')" id="paper">&#x1f590;</button>
+            <button @click="game('scissors')" id="scissors">&#x270c;</button>
         </div>
-        <p id="result"><!-- Aquí podrías poner que escoge la IA y el usuario...y si quieres el resultado del juego-->  </p>
+        <p id="result"> {{ result }}
+        </p>
+        <p>Your choice: {{ userChoice }} | Computer's choice: {{ computerChoice }}</p>
         <p id="scores">
-            Your score: <span id="user-score"></span>
-            Computer score: <span id="computer-score"></span>
+            Your score: <span id="user-score"> {{ userScore }}</span>
+            Computer score: <span id="computer-score">{{ computerScore }}</span>
         </p>
     </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { createApp, ref } = Vue
 
+        createApp({
+            setup() {
+                const userChoice = ref('')
+                const computerChoice = ref('')
+                const result = ref('')
+                const userScore = ref(0)
+                const computerScore = ref(0)
+
+                const game = (choice) => {
+                    userChoice.value = choice
+                    const options = ['rock', 'paper', 'scissors']
+                    computerChoice.value = options[Math.floor(Math.random() * options.length)]
+
+                    if (userChoice.value === computerChoice.value) {
+                        result.value = "It's a draw!"
+                    } else if (
+                        (userChoice.value === "rock" && computerChoice.value === "scissors") ||
+                        (userChoice.value === "paper" && computerChoice.value === "rock") ||
+                        (userChoice.value === "scissors" && computerChoice.value === "paper")
+                    ) {
+                        result.value = "Congratulations! You win!"
+                        userScore.value++
+                    } else {
+                        result.value = "You lose!"
+                        computerScore.value++
+                    } 
+                }
+                return {
+                    userChoice,
+                    computerChoice,
+                    result,
+                    computerScore,
+                    userScore,
+                    game
+                }
+            }
+        }).mount('#app')
+
+    </script>
 </body>
 
 </html>
